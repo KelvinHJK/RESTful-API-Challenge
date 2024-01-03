@@ -68,7 +68,8 @@ DELETE /employees/{identity_no}
 ```
 
 
-
+## Documentation
+Look into documentation.docx for detailed API specifications and database schemas.
 
 
 
