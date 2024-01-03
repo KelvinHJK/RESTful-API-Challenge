@@ -68,6 +68,13 @@ DELETE /employees/{identity_no}
 ```
 
 
+## Step 5: Unit testing (optional)
+Open terminal with venv, cd to the root repository
+```
+pytest tests
+```
+
+
 ## Documentation
 Look into documentation.docx for detailed API specifications and database schemas.
 
