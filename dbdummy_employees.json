@@ -1,0 +1,74 @@
+[{
+  "_id": {
+    "$oid": "6595506d8afe15675bd19f96"
+  },
+  "name": "Kelvin Ho Juin Ket",
+  "dob": {
+    "$date": "2002-12-08T00:00:00.000Z"
+  },
+  "date_joined": {
+    "$date": "2024-01-03T00:00:00.000Z"
+  },
+  "date_left": {
+    "$date": "2024-06-03T00:00:00.000Z"
+  },
+  "identity_no": "021208-12-0267",
+  "department": "engineering",
+  "salary": 100.1,
+  "remark": ""
+},
+{
+  "_id": {
+    "$oid": "6595543f8afe15675bd19f9b"
+  },
+  "name": "Marco Lee",
+  "dob": {
+    "$date": "2002-11-05T00:00:00.000Z"
+  },
+  "date_joined": {
+    "$date": "2022-10-10T00:00:00.000Z"
+  },
+  "date_left": {
+    "$date": "2023-01-20T00:00:00.000Z"
+  },
+  "identity_no": "021105-12-0635",
+  "department": "sales",
+  "salary": 600,
+  "remark": ""
+},
+{
+  "_id": {
+    "$oid": "659568eaabe52d774e0184d5"
+  },
+  "date_joined": {
+    "$date": "2023-03-20T00:00:00.000Z"
+  },
+  "date_left": null,
+  "department": "sales",
+  "dob": {
+    "$date": "2001-07-06T00:00:00.000Z"
+  },
+  "identity_no": "012345-67-8911",
+  "name": "Emily",
+  "remark": "good",
+  "salary": 1000
+},
+{
+  "_id": {
+    "$oid": "65956d80632275a7a1d2fe14"
+  },
+  "date_joined": {
+    "$date": "2021-01-02T00:00:00.000Z"
+  },
+  "date_left": {
+    "$date": "2022-05-12T00:00:00.000Z"
+  },
+  "department": "admin",
+  "dob": {
+    "$date": "2002-03-29T00:00:00.000Z"
+  },
+  "identity_no": "012345-67-8912",
+  "name": "Jerad Liaw",
+  "remark": "clever",
+  "salary": 2000
+}]

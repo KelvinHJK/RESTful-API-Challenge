@@ -1,0 +1,62 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'name',
+      'dob',
+      'date_joined',
+      'date_left',
+      'identity_no',
+      'department',
+      'salary',
+      'remark'
+    ],
+    properties: {
+      name: {
+        bsonType: 'string',
+        description: 'must be a string'
+      },
+      dob: {
+        bsonType: 'date',
+        description: 'must be a date'
+      },
+      date_joined: {
+        bsonType: 'date',
+        description: 'must be a date'
+      },
+      date_left: {
+        bsonType: [
+          'date',
+          'null'
+        ],
+        description: 'must be a date or null'
+      },
+      identity_no: {
+        bsonType: 'string',
+        description: 'must be a string'
+      },
+      department: {
+        bsonType: 'string',
+        description: 'must be a string',
+        'enum': [
+          'admin',
+          'engineering',
+          'management',
+          'sales',
+          'qc'
+        ]
+      },
+      salary: {
+        bsonType: [
+          'double',
+          'int'
+        ],
+        description: 'must be a number'
+      },
+      remark: {
+        bsonType: 'string',
+        description: 'must be a string'
+      }
+    }
+  }
+}
