@@ -3,10 +3,12 @@ from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 from bson import ObjectId
 from datetime import datetime
+from flask_cors import CORS
 
 from validation import validate_employee
 
 app = Flask(__name__)
+CORS(app)
 
 
 # mongodb connection

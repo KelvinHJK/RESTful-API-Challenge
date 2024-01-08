@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Kelvin Ho">
+    <meta name="description" content="Simple frontend to call CRUD functions in server">
+    <title>CRUD App</title>
+</head>
+<body>
+
+    <h1>Employee Management</h1>
+
+    <form id="employeeForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter full name" required><br/>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required><br/>
+
+        <label for="dateJoined">Date Joined:</label>
+        <input type="date" id="date_joined" name="dateJoined" required><br/>
+
+        <label for="dateLeft">Date Left:</label>
+        <input type="date" id="date_left" name="dateLeft"><br/>
+
+        <label for="identityNo">Identity No:</label>
+        <input type="text" id="identityNo" name="identity_no" placeholder="000000-00-0000" required><br/>
+
+        <label for="departmenta">Department:</label>
+        <select id="departments" name="departments">
+            <option value="admin">Admin</option>
+            <option value="engineering">Engineering</option>
+            <option value="management">Management</option>
+            <option value="sales">Sales</option>
+            <option value="qc">QC</option>
+        </select><br/>
+
+        <label for="salary">Salary:</label>
+        <input type="number" id="salary" name="salary" required><br/>
+
+        <label for="remark">Remark:</label>
+        <input type="text" id="remark" name="remark"><br/><br/><br/>
+
+        <button type="button" onclick="createEmployee()">Create Employee</button>
+        <button type="button" onclick="readEmployees()">Read Employees</button>
+        <button type="button" onclick="updateEmployee()">Update Employee</button>
+        <button type="button" onclick="deleteEmployee()">Delete Employee</button>
+        <button type="button" onclick="readLogs()">Show Logs</button>
+
+    </form>
+
+    <br/><br/><br/>
+    <div id="output"></div>
+
+    <script>
+        // Implement your CRUD functions using AJAX here
+        function createEmployee() {
+            // Use AJAX to make a POST request to your create endpoint
+            const employeeForm = document.getElementById('employeeForm');
+            const sentdata = {
+                name: employeeForm.name.value,
+                dob: employeeForm.dob.value,
+                date_joined: employeeForm.date_joined.value,
+                date_left: employeeForm.date_left.value ? employeeForm.date_left.value : null,
+                identity_no: employeeForm.identity_no.value,
+                department: employeeForm.department.value,
+                salary: parseInt(employeeForm.salary.value),
+                remark: employeeForm.remark.value
+            };
+            console.log(sentdata);
+
+            fetch('http://localhost:5000/employees', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sentdata)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the data (e.g., update the UI)
+                    console.log('Success:', data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function readEmployees() {
+            // Make an AJAX GET request to the read endpoint
+            fetch('http://localhost:5000/employees')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the data (e.g., update the UI)
+                    displayEmployees(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayEmployees(employees) {
+            // Display the employees in a table in the UI
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '';
+
+            console.log(employees);
+            console.log(employees.employees.length);
+
+            if (employees && employees.employees.length > 0) {
+                const table = document.createElement('table');
+                table.border = '1';
+
+
+                // Create table header
+                const headerRow = table.insertRow(0);
+                const headerNames = ['Name', 'DoB', 'Date Joined', 'Date Left', 'Department', 'Salary', 'Remark'];
+                headerNames.forEach(name => {
+                    const headerCell = document.createElement('th');
+                    headerCell.textContent = name;
+                    headerRow.appendChild(headerCell);
+                    // add padding to cell
+                    headerCell.style.padding = '10px';
+                });
+
+                // Create table rows with employee data
+                employees.employees.forEach((employee, index) => {
+                    const row = table.insertRow(index + 1);
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+                    const cell4 = row.insertCell(3);
+                    const cell5 = row.insertCell(4);
+                    const cell6 = row.insertCell(5);
+                    const cell7 = row.insertCell(6);
+
+                    cell1.textContent = employee.name;
+                    cell2.textContent = new Date(employee.dob).toLocaleDateString('en-GB');
+                    cell3.textContent = new Date(employee.date_joined).toLocaleDateString('en-GB');
+                    cell4.textContent = employee.date_left ? new Date(employee.date_left).toLocaleDateString('en-GB'): '';
+                    cell5.textContent = employee.department.charAt(0).toUpperCase() + employee.department.slice(1);
+                    cell6.textContent = employee.salary;
+                    cell7.textContent = employee.remark;
+
+
+                    // add padding to cell
+                    cell1.style.padding = '10px';
+                    cell2.style.padding = '10px';
+                    cell3.style.padding = '10px';
+                    cell4.style.padding = '10px';
+                    cell5.style.padding = '10px';
+                    cell6.style.padding = '10px';
+                    cell7.style.padding = '10px';
+                });
+
+                outputDiv.appendChild(table);
+            } else {
+                outputDiv.textContent = 'No employees found.';
+            }
+        }
+
+        function updateEmployee() {
+            // Use AJAX to make a PUT request to your update endpoint
+            const employeeForm = document.getElementById('employeeForm');
+            const sentdata = {
+                name: employeeForm.name.value,
+                dob: employeeForm.dob.value,
+                date_joined: employeeForm.date_joined.value,
+                date_left: employeeForm.date_left.value ? employeeForm.date_left.value : null,
+                identity_no: employeeForm.identity_no.value,
+                department: employeeForm.departments.value,
+                salary: parseInt(employeeForm.salary.value),
+                remark: employeeForm.remark.value
+            };
+            console.log(sentdata);
+
+            fetch('http://localhost:5000/employees/' + sentdata.identity_no, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sentdata)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the data (e.g., update the UI)
+                    console.log('Success:', data);
+                })
+                .catch(error => console.error('Error:', error));
+
+
+        }
+
+        function deleteEmployee() {
+            // Use AJAX to make a DELETE request to your delete endpoint
+            const employeeForm = document.getElementById('employeeForm');
+
+            fetch('http://localhost:5000/employees/' + employeeForm.identity_no.value, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the data (e.g., update the UI)
+                    console.log('Success:', data);
+                })
+                .catch(error => console.error('Error:', error)
+                );
+        }
+
+        function readLogs() {
+            // Make an AJAX GET request to the logs endpoint
+            fetch('http://localhost:5000/logs')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the data (e.g., update the UI)
+                    displayLogs(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayLogs(logs) {
+            // Display the logs in a table in the UI
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '';
+
+            if (logs && logs.logs.length > 0) {
+                const table = document.createElement('table');
+                table.border = '1';
+
+            
+                // Create table header
+                const headerRow = table.insertRow(0);
+                const headerNames = ['Timestamp', 'Action', 'Identity No', 'details'];
+                headerNames.forEach(name => {
+                    const headerCell = document.createElement('th');
+                    headerCell.textContent = name;
+                    headerRow.appendChild(headerCell);
+                    // add padding to cell
+                    headerCell.style.padding = '10px';
+                });
+
+                // Create table rows with employee data
+                logs.logs.forEach((log, index) => {
+                    const row = table.insertRow(index + 1);
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+                    const cell4 = row.insertCell(3);
+
+                    cell1.textContent = new Date(log.timestamp).toLocaleString('en-GB');
+                    cell2.textContent = log.action;
+                    cell3.textContent = log.employee_id;
+                    cell4.textContent = log.details;
+
+                    // add padding to cell
+                    cell1.style.padding = '10px';
+                    cell2.style.padding = '10px';
+                    cell3.style.padding = '10px';
+                    cell4.style.padding = '10px';
+                });
+
+                outputDiv.appendChild(table);
+            } else {
+                outputDiv.textContent = 'No logs found.';
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>
