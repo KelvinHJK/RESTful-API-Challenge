@@ -86,3 +86,13 @@ PUT /employees/{identity_no}
 ```
 DELETE /employees/{identity_no}
 ```
+
+
+## Step 5: Play with simple UI
+open "./app/index.html" with any browser application, and you can start playing with it (make sure the server is running).
+
+![image](https://github.com/KelvinHJK/RESTful-API-Challenge/assets/105097602/d62e8a15-cd94-4b52-894d-aa5c7bb1ede8)
+
+
+
+
